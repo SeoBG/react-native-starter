@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
+
+import { StyleSheet, Text, View, Alert, Keyboard, TouchableWithoutFeedback, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Container, Item, Form, Input, Button, Label, Icon } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {signIn} from '../API/firebaseMethods';
 
@@ -20,71 +22,109 @@ export default function SignIn() {
     setEmail('');
     setPassword('');
   };
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Sign in to your account:</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <Container style={styles.container}>
 
-      <TextInput
-        style={styles.formInput}
-        placeholder="Enter your email"
-        value={email}
-        onChangeText={(email) => setEmail(email)}
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.formInput}
-        placeholder="Enter your password"
-        value={password}
-        onChangeText={(password) => setPassword(password)}
-        secureTextEntry={true}
-      />
+        <View style={styles.formViewContainer}>
+            <View style={{ width: '100%', justifyContent: 'center', flexDirection: 'row', }}>
+                <Image
+                    style={{ width: 100, height: 100, }}
+                    source={require('../assets/make-money-logo.png')}
+                />
+            </View>
+            <Form>
 
-      <TouchableOpacity style={styles.button} onPress={handlePress}>
-        <Text style={styles.buttonText}>Sumbit</Text>
-      </TouchableOpacity>
+                <Item floatingLabel style={{ marginLeft: 10, marginRight: 10 }}>
+                    <Label>Email</Label>
+                    <Input
+                        autoCorrect={false}
+                        autoCapitalize="none"
+                        value={email}
+                        onChangeText={(email) => setEmail(email)}
+                    />
+                </Item>
 
-    </View>
-  );
+                <Item floatingLabel style={{ marginLeft: 10, marginRight: 10 }}>
+                    <Label>Password</Label>
+                    <Input
+                        autoCorrect={false}
+                        autoCapitalize="none"
+                        value={password}
+                        onChangeText={(password) => setPassword(password)}
+                        secureTextEntry={true}
+
+                    />
+                </Item>
+
+            </Form>
+            <Button
+                style={{ marginTop: 30, backgroundColor: 'green', borderRadius:5 }}
+                full
+                rounded
+                primary
+                onPress={handlePress}
+            >
+                <Text style={{ color: 'white' }}> Login </Text>
+
+            </Button>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 10 }}>
+                <TouchableOpacity>
+                    <Text style={{ fontSize: 12, textDecorationLine: 'underline' }}>
+                        Forgoten password?
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity >
+                    <Text style={{ fontSize: 12 }}>
+                        New user? <Text style={{ fontWeight: 'bold' }}>SIGN UP</Text>
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+        <View style={styles.footer}>
+
+            <Text style={{ textAlign: 'center', marginTop: 50 }}> Or login with </Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', margin: 10 }}>
+                <Button
+                    style={{ marginTop: 10, marginRight: 10, borderRadius:5 }}
+                    full
+                    rounded
+                    primary
+                    onPress={handlePress}
+                >
+                    <Icon type='FontAwesome' name='facebook-official' />
+                </Button>
+
+                <Button
+                    style={{ marginTop: 10, marginLeft: 10,borderRadius:5 }}
+                    full
+                    rounded
+                    danger
+                    onPress={handlePress}
+                >
+                    <Icon type='FontAwesome' name='google' fontSize={20} />
+                </Button>
+            </View>
+        </View>
+    </Container>
+    </TouchableWithoutFeedback>
+  )
 }
 
 const styles = StyleSheet.create({
-  button: {
-    width: 200,
-    padding: 5,
-    backgroundColor: '#ff9999',
-    borderWidth: 2,
-    borderColor: 'white',
-    borderRadius: 15,
-    alignSelf: 'center',
-    margin: "2%",
-  },
-  buttonText: {
-    fontSize:20,
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   container: {
-    height: '100%',
-    width: '100%',
-    backgroundColor: '#3FC5AB',
-    alignItems: 'center',
+    flex: 1,
+    backgroundColor: '#fff',
     justifyContent: 'center',
-  },
-  formInput: {
-    width: 300,
-    fontSize:18,
-    borderWidth: 1,
-    borderColor:'#a4eddf',
     padding: 10,
-    margin: 5,
-  },
-  text: {
-    textAlign: 'center',
-    fontSize: 20,
-    margin: 10,
-    fontWeight: 'bold',
-    color: '#2E6194',
-  }
+},
+formViewContainer:{
+    flex:2,
+    justifyContent:'flex-end'
+},
+footer: {
+    width: '100%',
+    justifyContent: 'flex-end',
+    flex: 1
+}
 });
